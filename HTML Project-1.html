@@ -1,0 +1,156 @@
+<html>
+    <head>
+        <title>Random Quote Generator</title>
+      </head>
+      <body>
+        <style>
+        body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items:  flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      
+    }
+    
+     body {
+       background-image: url('https://img.freepik.com/premium-photo/empty-theater-stage-with-red-curtains-dramatic-spotlights_975188-112789.jpg');
+       background-size: cover;
+       background-repeat: no-repeat;
+       background-position: center;
+      height: 100vh;
+     }
+     
+    .header h1 {
+            font-size: 1.5em; 
+            color: rgb(255, 223, 41); 
+            margin-top: 2px;
+            text-align: center;
+            max-width: 600px; 
+            padding-right: 100px; 
+        }
+        .header p {
+            font-size: 1.1em;
+            color: rgb(172, 255, 182);
+            text-align: center;
+            max-width: 600px; 
+            padding-right: 2px; 
+        }
+ .quote-wrapper {
+  display: flex;
+  align-items: center; 
+  gap: 80px; 
+  position: relative;
+  max-width: fit-content; 
+   
+}
+
+.quote-gif {
+  width: 200px; 
+  height: 580px;
+  margin-right: -50px; 
+  
+}
+.quote-container {
+  background: rgb(255, 234, 252);
+  max-width: 400px;
+  padding: 40px 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  text-align: center; 
+  position: relative;
+  
+}
+
+    .quote-text {
+      font-size: 1.5rem;
+      font-style: italic;
+      color: rgb(16, 75, 170);
+      margin-bottom: 20px;
+      min-height: 90px;
+    }
+    .quote-author {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: black;
+      margin-bottom: 5px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    button {
+      background: #001b50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: rgb(29, 107, 232);
+    }
+
+  </style>
+
+  <div class="container">
+        <div class="header">
+            <p style="color: rgb(249, 250, 251); font-size: 2.5em; margin-bottom: 5px;">JavaScript Developer Project</p>
+            <h1>Random Quote Generator</h1>
+            <p>JS . API . HTML . CSS</p>
+        </div>
+        
+  
+  <div class="quote-wrapper">
+  <img src="https://i.pinimg.com/originals/17/b4/d7/17b4d75844d047a1ae585bda3c27b6ec.gif" alt="Loading GIF" class="quote-gif" />
+  <div class="quote-container">
+    <div class="quote-text" id="quote">Loading...</div>
+    <div class="quote-author" id="author"></div>
+    <div class="buttons">
+      <button id="random-btn">Random</button>
+      <button id="copy-btn">Copy</button>
+    </div>
+  </div>
+</div>
+
+  <script>
+    let quotes = [];
+    const quoteEl = document.getElementById('quote');
+    const authorEl = document.getElementById('author');
+    const randomBtn = document.getElementById('random-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    async function fetchQuotes() {
+      
+        const response = await fetch('random-quotes.json');
+       
+        quotes = await response.json();
+        showRandomQuote();
+     
+        
+    }
+    function showRandomQuote() 
+    {
+      
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const quote = quotes[randomIndex];
+
+      quoteEl.textContent = `"${quote.quote}"`;
+      authorEl.textContent = quote.author ? `— ${quote.author}` : '';
+    }
+    function copyQuote() {
+      const textToCopy = `${quoteEl.textContent} ${authorEl.textContent}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert('Quote copied to clipboard!');
+      })
+    }
+    randomBtn.addEventListener('click', showRandomQuote);
+    copyBtn.addEventListener('click', copyQuote);
+    fetchQuotes();
+  </script>
+</body>
+</html>
